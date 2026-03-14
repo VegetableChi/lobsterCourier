@@ -17,14 +17,19 @@ using System.IO;
 public class FinalPolish : EditorWindow
 {
     private Vector2 scrollPosition;
-    private bool skipGenerated = true;
-    private bool autoSave = true;
+    private static bool skipGenerated;
+    private static bool autoSave;
     
     [MenuItem("Lobster Courier/最终完善 (v1.0 发布准备)")]
     public static void ShowWindow()
     {
         var window = GetWindow<FinalPolish>("最终完善");
         window.minSize = new Vector2(450, 600);
+        
+        // 加载保存的设置
+        skipGenerated = EditorPrefs.GetBool("FinalPolish_SkipGenerated", true);
+        autoSave = EditorPrefs.GetBool("FinalPolish_AutoSave", true);
+        
         window.Show();
     }
     
@@ -45,8 +50,19 @@ public class FinalPolish : EditorWindow
         
         // 选项设置
         GUILayout.Label("⚙️ 选项设置", EditorStyles.boldLabel);
-        skipGenerated = EditorGUILayout.Toggle("跳过已生成的资源", skipGenerated);
-        autoSave = EditorGUILayout.Toggle("自动保存", autoSave);
+        bool newSkipGenerated = EditorGUILayout.Toggle("跳过已生成的资源", skipGenerated);
+        bool newAutoSave = EditorGUILayout.Toggle("自动保存", autoSave);
+        
+        if (newSkipGenerated != skipGenerated)
+        {
+            skipGenerated = newSkipGenerated;
+            EditorPrefs.SetBool("FinalPolish_SkipGenerated", skipGenerated);
+        }
+        if (newAutoSave != autoSave)
+        {
+            autoSave = newAutoSave;
+            EditorPrefs.SetBool("FinalPolish_AutoSave", autoSave);
+        }
         
         GUILayout.Space(10);
         
