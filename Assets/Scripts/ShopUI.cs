@@ -16,7 +16,7 @@ public class ShopUI : MonoBehaviour
     public Button openShopButton;
     public Button closeShopButton;
     
-    [Header="金钱显示"]
+    [Header("金钱显示")]
     public TextMeshProUGUI moneyText;
     
     private bool isShopOpen = false;
