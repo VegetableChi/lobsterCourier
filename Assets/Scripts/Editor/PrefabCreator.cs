@@ -49,7 +49,7 @@ public class PrefabCreator : EditorWindow
         package.tag = "Package";
         
         SpriteRenderer sr = package.AddComponent<SpriteRenderer>();
-        sr.color = Color.brown;
+        sr.color = new Color(0.55f, 0.27f, 0.07f);
         
         Rigidbody2D rb = package.AddComponent<Rigidbody2D>();
         rb.gravityScale = 0;

@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.UI;
+using TMPro;
 using System.Collections.Generic;
 
 /// <summary>

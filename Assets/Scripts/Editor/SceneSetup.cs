@@ -157,7 +157,16 @@ public class SceneSetup : EditorWindow
         // 创建摄像机
         CreateCamera();
         
-        // 创建主菜单 UI
+        // 创建主菜单 UI（CreateMainMenuUI 会自己创建 Canvas）
+        Canvas canvas = FindObjectOfType<Canvas>();
+        if (canvas == null)
+        {
+            GameObject canvasObj = new GameObject("Canvas");
+            canvas = canvasObj.AddComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvasObj.AddComponent<CanvasScaler>();
+            canvasObj.AddComponent<GraphicRaycaster>();
+        }
         CreateMainMenuUI(canvas);
         
         // 创建管理器
@@ -165,7 +174,7 @@ public class SceneSetup : EditorWindow
         
         // 保存场景
         System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName("Assets/" + scenePath));
-        EditorSceneManager.SaveScene(scene, scenePath);
+        EditorSceneManager.SaveScene(scene);
         
         Debug.Log("✅ 主菜单场景创建完成！");
         EditorUtility.DisplayDialog("场景创建完成", "主菜单场景已创建完成！", "好的");
@@ -357,12 +366,8 @@ public class SceneSetup : EditorWindow
             GameObject eventSystem = new GameObject("EventSystem");
             eventSystem.AddComponent<EventSystem>();
             
-            // Unity 2022+ 使用 Input System
-            #if UNITY_2022_1_OR_NEWER
-            eventSystem.AddComponent<UnityEngine.EventSystems.InputSystemUIInputModule>();
-            #else
+            // 使用 Standalone Input Module
             eventSystem.AddComponent<StandaloneInputModule>();
-            #endif
         }
         
         // 创建 UI 元素
@@ -390,7 +395,7 @@ public class SceneSetup : EditorWindow
         CreateTextElement(hudObj, "OrderCountText", "📦 0", new Vector2(800, 500), 36, Color.white);
         
         // 连击显示
-        CreateTextElement(hudObj, "ComboText", "", new Vector2(0, 500), 48, Color.orange);
+        CreateTextElement(hudObj, "ComboText", "", new Vector2(0, 500), 48, new Color(1f, 0.5f, 0f));
         
         // 体力条背景
         GameObject staminaBg = CreateImageElement(hudObj, "StaminaBarBg", new Vector2(0, -500), new Vector2(300, 30), Color.gray);
@@ -562,7 +567,7 @@ public class SceneSetup : EditorWindow
         package.tag = "Package";
         
         SpriteRenderer sr = package.AddComponent<SpriteRenderer>();
-        sr.color = Color.brown;
+        sr.color = new Color(0.55f, 0.27f, 0.07f);
         
         Rigidbody2D rb = package.AddComponent<Rigidbody2D>();
         rb.gravityScale = 0;

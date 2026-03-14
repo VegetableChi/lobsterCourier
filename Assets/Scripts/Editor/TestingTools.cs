@@ -479,7 +479,7 @@ public class TestingTools : EditorWindow
             SerializedProperty sp = so.GetIterator();
             while (sp.NextVisible(true))
             {
-                if (sp.propertyType == SerializedType.ObjectReference)
+                if (sp.propertyType == UnityEditor.SerializedPropertyType.ObjectReference)
                 {
                     if (sp.objectReferenceValue == null && sp.displayName != "Prefab")
                     {
