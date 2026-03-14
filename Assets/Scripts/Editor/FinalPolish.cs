@@ -157,10 +157,10 @@ public class FinalPolish : EditorWindow
             GenerateAllAudio();
             System.Threading.Thread.Sleep(500);
             
-            // 步骤 3: 搭建场景
+            // 步骤 3: 检查场景（不创建新场景，避免删除当前场景）
             currentStep++;
-            EditorUtility.DisplayProgressBar("最终完善", $"步骤 {currentStep}/{totalSteps}: 搭建游戏场景...", (float)currentStep / totalSteps);
-            SetupGameScene();
+            EditorUtility.DisplayProgressBar("最终完善", $"步骤 {currentStep}/{totalSteps}: 检查场景...", (float)currentStep / totalSteps);
+            CheckGameScene();
             System.Threading.Thread.Sleep(500);
             
             // 步骤 4: 运行测试
@@ -249,9 +249,26 @@ public class FinalPolish : EditorWindow
         Debug.Log("✅ 音效资源生成完成");
     }
     
+    static void CheckGameScene()
+    {
+        Debug.Log("🔍 检查游戏场景");
+        
+        string scenePath = "Assets/Scenes/GameScene.unity";
+        
+        if (File.Exists(scenePath))
+        {
+            Debug.Log($"✅ 场景文件已存在：{scenePath}");
+        }
+        else
+        {
+            Debug.LogWarning($"⚠️ 场景文件不存在：{scenePath}");
+            Debug.LogWarning("⚠️ 如需创建场景，请点击分步执行中的 '3. 搭建游戏场景' 按钮");
+        }
+    }
+    
     static void SetupGameScene()
     {
-        Debug.Log("🎬 步骤 3: 搭建游戏场景");
+        Debug.Log("🎬 搭建游戏场景");
         
         // 检查是否在 Play 模式
         if (EditorApplication.isPlaying)
@@ -268,6 +285,24 @@ public class FinalPolish : EditorWindow
         
         // 直接创建场景文件
         string scenePath = "Assets/Scenes/GameScene.unity";
+        
+        // 检查场景是否已存在
+        if (File.Exists(scenePath))
+        {
+            Debug.Log($"ℹ️ 场景文件已存在，跳过创建：{scenePath}");
+            if (EditorUtility.DisplayDialog("场景已存在", 
+                "场景文件已存在！\n\n" +
+                "点击 '确定' 会创建新场景（当前场景会关闭）\n" +
+                "点击 '取消' 会保留当前场景", 
+                "确定", "取消"))
+            {
+                // 用户确认要创建新场景
+            }
+            else
+            {
+                return; // 用户取消，保留当前场景
+            }
+        }
         
         try
         {
