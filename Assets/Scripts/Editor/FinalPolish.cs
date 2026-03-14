@@ -35,10 +35,11 @@ public class FinalPolish : EditorWindow
     
     void OnGUI()
     {
+        EditorGUILayout.BeginVertical();
         scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
         
-        GUILayout.Label("🦞 龙虾快递员 - 最终完善工具 v2.0", EditorStyles.boldLabel);
-        GUILayout.Space(10);
+        EditorGUILayout.LabelField("🦞 龙虾快递员 - 最终完善工具 v2.0", EditorStyles.boldLabel);
+        EditorGUILayout.Space(10);
         
         EditorGUILayout.HelpBox(
             "本工具将完成所有优化和检查工作，\n" +
@@ -46,25 +47,20 @@ public class FinalPolish : EditorWindow
             "预计耗时：3-5 分钟",
             MessageType.Info);
         
-        GUILayout.Space(10);
+        EditorGUILayout.Space(10);
         
         // 选项设置
-        GUILayout.Label("⚙️ 选项设置", EditorStyles.boldLabel);
-        bool newSkipGenerated = EditorGUILayout.Toggle("跳过已生成的资源", skipGenerated);
-        bool newAutoSave = EditorGUILayout.Toggle("自动保存", autoSave);
-        
-        if (newSkipGenerated != skipGenerated)
+        EditorGUILayout.LabelField("⚙️ 选项设置", EditorStyles.boldLabel);
+        EditorGUI.BeginChangeCheck();
+        skipGenerated = EditorGUILayout.Toggle("跳过已生成的资源", skipGenerated);
+        autoSave = EditorGUILayout.Toggle("自动保存", autoSave);
+        if (EditorGUI.EndChangeCheck())
         {
-            skipGenerated = newSkipGenerated;
             EditorPrefs.SetBool("FinalPolish_SkipGenerated", skipGenerated);
-        }
-        if (newAutoSave != autoSave)
-        {
-            autoSave = newAutoSave;
             EditorPrefs.SetBool("FinalPolish_AutoSave", autoSave);
         }
         
-        GUILayout.Space(10);
+        EditorGUILayout.Space(10);
         
         // 进度显示
         if (GUILayout.Button("▶️ 开始最终完善", GUILayout.Height(40)))
@@ -78,10 +74,10 @@ public class FinalPolish : EditorWindow
             RunFinalPolish();
         }
         
-        GUILayout.Space(5);
+        EditorGUILayout.Space(5);
         
         // 分步执行按钮
-        GUILayout.Label("🔧 分步执行", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("🔧 分步执行", EditorStyles.boldLabel);
         
         if (GUILayout.Button("1. 生成美术资源"))
         {
@@ -118,10 +114,10 @@ public class FinalPolish : EditorWindow
             FinalCheck();
         }
         
-        GUILayout.Space(10);
+        EditorGUILayout.Space(10);
         
         // 快捷操作
-        GUILayout.Label("⚡ 快捷操作", EditorStyles.boldLabel);
+        EditorGUILayout.LabelField("⚡ 快捷操作", EditorStyles.boldLabel);
         
         if (GUILayout.Button("清理缓存"))
         {
@@ -137,6 +133,7 @@ public class FinalPolish : EditorWindow
         }
         
         EditorGUILayout.EndScrollView();
+        EditorGUILayout.EndVertical();
     }
     
     static void RunFinalPolish()
