@@ -53,7 +53,7 @@ public static class ComponentCache
 /// </summary>
 public class SimpleObjectPool<T> where T : Component
 {
-    private System.Queue<T> pool = new System.Queue<T>();
+    private System.Collections.Generic.Queue<T> pool = new System.Collections.Generic.Queue<T>();
     private Transform parent;
     private T prefab;
     
