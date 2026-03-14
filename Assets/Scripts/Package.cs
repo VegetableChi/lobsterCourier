@@ -122,7 +122,7 @@ public class Package : MonoBehaviour
     void PlayDeliveryEffect()
     {
         // 可以添加粒子特效、音效等
-        Debug.Log($"📦 包裹送达！奖励：${finalValue}");
+        Debug.Log("📦 包裹送达！");
     }
 }
 

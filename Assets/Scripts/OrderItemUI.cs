@@ -144,7 +144,7 @@ public class OrderItemUI : MonoBehaviour
         {
             case CustomerType.Starfish: return "⭐";
             case CustomerType.Octopus: return "🐙";
-            case CustomerType.Clownfish: return "🐠";
+            case CustomerType.ReefFish: return "🐠";
             case CustomerType.Crab: return "🦀";
             case CustomerType.Seahorse: return "🐴";
             case CustomerType.Jellyfish: return "🪼";
