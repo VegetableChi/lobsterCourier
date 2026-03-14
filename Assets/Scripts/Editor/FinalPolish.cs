@@ -141,13 +141,31 @@ public class FinalPolish : EditorWindow
         // 直接创建场景文件
         string scenePath = "Assets/Scenes/GameScene.unity";
         
-        // 创建新场景
-        Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-        
-        // 保存场景
-        EditorSceneManager.SaveScene(scene, scenePath);
-        
-        Debug.Log($"✅ 游戏场景搭建完成：{scenePath}");
+        try
+        {
+            // 创建新场景
+            Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            
+            // 保存场景
+            EditorSceneManager.SaveScene(scene, scenePath);
+            
+            // 刷新 Asset Database
+            AssetDatabase.Refresh();
+            
+            // 验证文件是否存在
+            if (File.Exists(scenePath))
+            {
+                Debug.Log($"✅ 游戏场景搭建完成：{scenePath}");
+            }
+            else
+            {
+                Debug.LogError($"❌ 场景文件创建失败：{scenePath}");
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"❌ 场景创建失败：{e.Message}");
+        }
     }
     
     static void RunAllTests()
@@ -224,7 +242,7 @@ public class FinalPolish : EditorWindow
             "Assets/Scripts/Editor/SpriteGenerator.cs",
             "Assets/Scripts/Editor/AudioGenerator.cs",
             "Assets/Scripts/Editor/SceneSetup.cs",
-            "Assets/README.md"
+            "Assets/Scripts/README.md"
         };
         
         bool allExist = true;
