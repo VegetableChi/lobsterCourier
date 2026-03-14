@@ -77,6 +77,13 @@ public class LevelGenerator : MonoBehaviour
     
     void GenerateObstacles()
     {
+        // 检查预制体数组
+        if (obstaclePrefabs == null || obstaclePrefabs.Length == 0)
+        {
+            Debug.LogWarning("⚠️ 没有障碍物预制体，跳过生成");
+            return;
+        }
+        
         for (int i = 0; i < obstacleCount; i++)
         {
             Vector2 pos = GetRandomPosition();
