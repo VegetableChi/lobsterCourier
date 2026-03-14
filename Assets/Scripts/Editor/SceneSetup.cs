@@ -99,9 +99,9 @@ public class SceneSetup : EditorWindow
                 AssetDatabase.CreateFolder("Assets", "Scenes");
             }
             
-            // 创建新场景
-            Scene scene = SceneManager.CreateScene("GameScene");
-            SceneManager.SetActiveScene(scene);
+            // 创建新场景（使用 EditorSceneManager）
+            Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            scene.name = "GameScene";
             
             // 显示进度
             EditorUtility.DisplayProgressBar("搭建场景", "创建玩家对象...", 0.1f);
@@ -157,9 +157,9 @@ public class SceneSetup : EditorWindow
             AssetDatabase.CreateFolder("Assets", "Scenes");
         }
         
-        // 创建新场景
-        UnityEngine.SceneManagement.Scene scene = UnityEngine.SceneManagement.SceneManager.CreateScene("MainMenu");
-        UnityEngine.SceneManagement.SceneManager.SetActiveScene(scene);
+        // 创建新场景（使用 EditorSceneManager）
+        Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+        scene.name = "MainMenu";
         
         // 创建摄像机
         CreateCamera();
