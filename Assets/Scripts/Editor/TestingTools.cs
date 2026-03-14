@@ -367,7 +367,6 @@ public class TestingTools : EditorWindow
         
         // 检查未使用的资源
         string[] allAssets = AssetDatabase.GetAllAssetPaths();
-        int unusedCount = 0;
         
         foreach (string path in allAssets)
         {

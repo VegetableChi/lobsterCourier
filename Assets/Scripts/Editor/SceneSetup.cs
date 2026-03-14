@@ -113,7 +113,7 @@ public class SceneSetup : EditorWindow
             
             // 保存场景
             System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName("Assets/" + scenePath));
-            SceneManager.SaveScene(scene, scenePath);
+            EditorSceneManager.SaveScene(scene);
             
             // 清除进度
             EditorUtility.ClearProgressBar();
