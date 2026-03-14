@@ -123,9 +123,29 @@ public class FinalPolish : EditorWindow
     {
         Debug.Log("🎬 步骤 3: 搭建游戏场景");
         
-        // 调用 SceneSetup
-        var sceneSetup = ScriptableObject.CreateInstance<SceneSetup>();
-        sceneSetup.CreateGameScene();
+        // 检查是否在 Play 模式
+        if (EditorApplication.isPlaying)
+        {
+            Debug.LogError("❌ 不能在 Play 模式下创建场景！");
+            return;
+        }
+        
+        // 直接创建场景
+        string scenePath = "Assets/Scenes/GameScene.unity";
+        
+        // 创建场景目录
+        if (!AssetDatabase.IsValidFolder("Assets/Scenes"))
+        {
+            AssetDatabase.CreateFolder("Assets", "Scenes");
+        }
+        
+        // 创建新场景（使用 EditorSceneManager）
+        Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+        scene.name = "GameScene";
+        
+        // 保存场景
+        System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName("Assets/" + scenePath));
+        EditorSceneManager.SaveScene(scene, scenePath);
         
         Debug.Log("✅ 游戏场景搭建完成");
     }
