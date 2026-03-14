@@ -25,6 +25,13 @@ public class FinalPolish : EditorWindow
     
     static void RunFinalPolish()
     {
+        // 检查是否在 Play 模式
+        if (EditorApplication.isPlaying)
+        {
+            EditorUtility.DisplayDialog("错误", "不能在 Play 模式下运行最终完善！\n\n请先退出 Play 模式。", "确定");
+            return;
+        }
+        
         Debug.Log("=== 🦞 龙虾快递员 - 最终完善开始 ===");
         
         try

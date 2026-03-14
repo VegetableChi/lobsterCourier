@@ -82,6 +82,13 @@ public class SceneSetup : EditorWindow
     
     public void CreateGameScene()
     {
+        // 检查是否在 Play 模式
+        if (EditorApplication.isPlaying)
+        {
+            EditorUtility.DisplayDialog("错误", "不能在 Play 模式下创建场景！\n\n请先退出 Play 模式。", "确定");
+            return;
+        }
+        
         try
         {
             string scenePath = "Assets/Scenes/GameScene.unity";
