@@ -35,105 +35,122 @@ public class FinalPolish : EditorWindow
     
     void OnGUI()
     {
-        EditorGUILayout.BeginVertical();
-        scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
-        
-        EditorGUILayout.LabelField("🦞 龙虾快递员 - 最终完善工具 v2.0", EditorStyles.boldLabel);
-        EditorGUILayout.Space(10);
-        
-        EditorGUILayout.HelpBox(
-            "本工具将完成所有优化和检查工作，\n" +
-            "为 v1.0 发布做准备。\n\n" +
-            "预计耗时：3-5 分钟",
-            MessageType.Info);
-        
-        EditorGUILayout.Space(10);
-        
-        // 选项设置
-        EditorGUILayout.LabelField("⚙️ 选项设置", EditorStyles.boldLabel);
-        EditorGUI.BeginChangeCheck();
-        skipGenerated = EditorGUILayout.Toggle("跳过已生成的资源", skipGenerated);
-        autoSave = EditorGUILayout.Toggle("自动保存", autoSave);
-        if (EditorGUI.EndChangeCheck())
+        try
         {
-            EditorPrefs.SetBool("FinalPolish_SkipGenerated", skipGenerated);
-            EditorPrefs.SetBool("FinalPolish_AutoSave", autoSave);
-        }
-        
-        EditorGUILayout.Space(10);
-        
-        // 进度显示
-        if (GUILayout.Button("▶️ 开始最终完善", GUILayout.Height(40)))
-        {
-            if (EditorApplication.isPlaying)
+            EditorGUILayout.BeginVertical();
+            try
             {
-                EditorUtility.DisplayDialog("错误", "不能在 Play 模式下运行最终完善！\n\n请先退出 Play 模式。", "确定");
-                return;
+                scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+                try
+                {
+                    EditorGUILayout.LabelField("🦞 龙虾快递员 - 最终完善工具 v2.0", EditorStyles.boldLabel);
+                    EditorGUILayout.Space(10);
+                    
+                    EditorGUILayout.HelpBox(
+                        "本工具将完成所有优化和检查工作，\n" +
+                        "为 v1.0 发布做准备。\n\n" +
+                        "预计耗时：3-5 分钟",
+                        MessageType.Info);
+                    
+                    EditorGUILayout.Space(10);
+                    
+                    // 选项设置
+                    EditorGUILayout.LabelField("⚙️ 选项设置", EditorStyles.boldLabel);
+                    EditorGUI.BeginChangeCheck();
+                    skipGenerated = EditorGUILayout.Toggle("跳过已生成的资源", skipGenerated);
+                    autoSave = EditorGUILayout.Toggle("自动保存", autoSave);
+                    if (EditorGUI.EndChangeCheck())
+                    {
+                        EditorPrefs.SetBool("FinalPolish_SkipGenerated", skipGenerated);
+                        EditorPrefs.SetBool("FinalPolish_AutoSave", autoSave);
+                    }
+                    
+                    EditorGUILayout.Space(10);
+                    
+                    // 进度显示
+                    if (GUILayout.Button("▶️ 开始最终完善", GUILayout.Height(40)))
+                    {
+                        if (EditorApplication.isPlaying)
+                        {
+                            EditorUtility.DisplayDialog("错误", "不能在 Play 模式下运行最终完善！\n\n请先退出 Play 模式。", "确定");
+                            return;
+                        }
+                        
+                        RunFinalPolish();
+                    }
+                    
+                    EditorGUILayout.Space(5);
+                    
+                    // 分步执行按钮
+                    EditorGUILayout.LabelField("🔧 分步执行", EditorStyles.boldLabel);
+                    
+                    if (GUILayout.Button("1. 生成美术资源"))
+                    {
+                        GenerateAllAssets();
+                    }
+                    
+                    if (GUILayout.Button("2. 生成音效资源"))
+                    {
+                        GenerateAllAudio();
+                    }
+                    
+                    if (GUILayout.Button("3. 搭建游戏场景"))
+                    {
+                        SetupGameScene();
+                    }
+                    
+                    if (GUILayout.Button("4. 运行自动化测试"))
+                    {
+                        RunAllTests();
+                    }
+                    
+                    if (GUILayout.Button("5. 性能优化"))
+                    {
+                        OptimizePerformance();
+                    }
+                    
+                    if (GUILayout.Button("6. 生成发布文档"))
+                    {
+                        GenerateReleaseDocs();
+                    }
+                    
+                    if (GUILayout.Button("7. 最终检查"))
+                    {
+                        FinalCheck();
+                    }
+                    
+                    EditorGUILayout.Space(10);
+                    
+                    // 快捷操作
+                    EditorGUILayout.LabelField("⚡ 快捷操作", EditorStyles.boldLabel);
+                    
+                    if (GUILayout.Button("清理缓存"))
+                    {
+                        ClearCache();
+                    }
+                    
+                    if (GUILayout.Button("重置所有设置"))
+                    {
+                        if (EditorUtility.DisplayDialog("确认重置", "确定要重置所有设置吗？\n\n这将删除所有生成的资源。", "确定", "取消"))
+                        {
+                            ResetAll();
+                        }
+                    }
+                }
+                finally
+                {
+                    EditorGUILayout.EndScrollView();
+                }
             }
-            
-            RunFinalPolish();
-        }
-        
-        EditorGUILayout.Space(5);
-        
-        // 分步执行按钮
-        EditorGUILayout.LabelField("🔧 分步执行", EditorStyles.boldLabel);
-        
-        if (GUILayout.Button("1. 生成美术资源"))
-        {
-            GenerateAllAssets();
-        }
-        
-        if (GUILayout.Button("2. 生成音效资源"))
-        {
-            GenerateAllAudio();
-        }
-        
-        if (GUILayout.Button("3. 搭建游戏场景"))
-        {
-            SetupGameScene();
-        }
-        
-        if (GUILayout.Button("4. 运行自动化测试"))
-        {
-            RunAllTests();
-        }
-        
-        if (GUILayout.Button("5. 性能优化"))
-        {
-            OptimizePerformance();
-        }
-        
-        if (GUILayout.Button("6. 生成发布文档"))
-        {
-            GenerateReleaseDocs();
-        }
-        
-        if (GUILayout.Button("7. 最终检查"))
-        {
-            FinalCheck();
-        }
-        
-        EditorGUILayout.Space(10);
-        
-        // 快捷操作
-        EditorGUILayout.LabelField("⚡ 快捷操作", EditorStyles.boldLabel);
-        
-        if (GUILayout.Button("清理缓存"))
-        {
-            ClearCache();
-        }
-        
-        if (GUILayout.Button("重置所有设置"))
-        {
-            if (EditorUtility.DisplayDialog("确认重置", "确定要重置所有设置吗？\n\n这将删除所有生成的资源。", "确定", "取消"))
+            finally
             {
-                ResetAll();
+                EditorGUILayout.EndVertical();
             }
         }
-        
-        EditorGUILayout.EndScrollView();
-        EditorGUILayout.EndVertical();
+        catch (System.Exception e)
+        {
+            Debug.LogError($"GUI 错误：{e.Message}");
+        }
     }
     
     static void RunFinalPolish()
