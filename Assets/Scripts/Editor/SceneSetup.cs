@@ -321,12 +321,12 @@ public class SceneSetup : EditorWindow
         GameObject managerObj = new GameObject(name);
         managerObj.AddComponent(scriptType);
         
-        // 设置为不销毁（对于单例模式）
-        if (scriptType == typeof(GameManager) || 
+        // 设置为不销毁（对于单例模式）- 只在 Play 模式下
+        if (Application.isPlaying && (scriptType == typeof(GameManager) || 
             scriptType == typeof(SaveSystem) || 
             scriptType == typeof(AchievementSystem) ||
             scriptType == typeof(AudioManager) ||
-            scriptType == typeof(ParticleManager))
+            scriptType == typeof(ParticleManager)))
         {
             MonoBehaviour.DontDestroyOnLoad(managerObj);
         }
