@@ -159,7 +159,7 @@ public class LevelGenerator : MonoBehaviour
         {
             Vector2 center = GetRandomPosition();
             float radius = Random.Range(3f, 8f);
-            Vector2 flowDir = Random.onUnitCircle;
+            Vector2 flowDir = new Vector2(UnityEngine.Random.Range(-1f, 1f), UnityEngine.Random.Range(-1f, 1f)).normalized;
             float strength = Random.Range(1f, 3f);
             
             CurrentZone zone = new CurrentZone

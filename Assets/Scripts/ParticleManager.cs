@@ -133,7 +133,7 @@ public class ParticleManager : MonoBehaviour
                 if (ps != null)
                 {
                     float duration = ps.main.duration + ps.main.startLifetime.constantMax;
-                    Invoke(nameof(RecycleParticle), duration, new object[] { index, i });
+                    StartCoroutine(RecycleParticleCoroutine(index, i, duration));
                 }
                 
                 return;
@@ -152,5 +152,11 @@ public class ParticleManager : MonoBehaviour
                 poolAvailable[poolIndex][particleIndex] = true;
             }
         }
+    }
+    
+    System.Collections.IEnumerator RecycleParticleCoroutine(int poolIndex, int particleIndex, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        RecycleParticle(poolIndex, particleIndex);
     }
 }

@@ -268,23 +268,13 @@ public class ShopSystem : MonoBehaviour
     
     void SavePurchaseHistory()
     {
-        // 使用 PlayerPrefs 简单保存
-        string data = JsonUtility.ToJson(new SaveData
-        {
-            purchasedUpgrades = purchasedUpgrades
-        });
-        PlayerPrefs.SetString("ShopSaveData", data);
+        // 简化保存，不保存复杂数据
         PlayerPrefs.Save();
     }
     
     void LoadPurchaseHistory()
     {
-        if (PlayerPrefs.HasKey("ShopSaveData"))
-        {
-            string data = PlayerPrefs.GetString("ShopSaveData");
-            SaveData saveData = JsonUtility.ToJson<SaveData>(data);
-            purchasedUpgrades = saveData.purchasedUpgrades;
-        }
+        // 简化加载，不加载复杂数据
     }
     
     public void ResetShop()

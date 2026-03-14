@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 
@@ -109,8 +110,8 @@ public class PerformanceMonitor : MonoBehaviour
             GameObject canvasObj = new GameObject("PerformanceCanvas");
             canvas = canvasObj.AddComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            canvasObj.AddComponent<CanvasScaler>();
-            canvasObj.AddComponent<GraphicRaycaster>();
+            canvasObj.AddComponent<UnityEngine.UI.CanvasScaler>();
+            canvasObj.AddComponent<UnityEngine.UI.GraphicRaycaster>();
         }
         
         // 创建文本
@@ -119,7 +120,6 @@ public class PerformanceMonitor : MonoBehaviour
         textObj.transform.SetAsFirstSibling(); // 放在最前面
         
         statsText = textObj.AddComponent<TextMeshProUGUI>();
-        statsText.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
         statsText.fontSize = 14;
         statsText.color = Color.white;
         statsText.alignment = TextAlignmentOptions.TopLeft;
@@ -132,7 +132,7 @@ public class PerformanceMonitor : MonoBehaviour
         rect.sizeDelta = new Vector2(300, 200);
         
         // 背景
-        Image bg = textObj.AddComponent<Image>();
+        UnityEngine.UI.Image bg = textObj.AddComponent<UnityEngine.UI.Image>();
         bg.color = new Color(0, 0, 0, 0.5f);
         
         textObj.SetActive(showStats);

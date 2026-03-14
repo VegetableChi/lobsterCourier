@@ -43,8 +43,7 @@ public static class ComponentCache
     /// </summary>
     public static void PreCacheComponents(this MonoBehaviour behaviour)
     {
-        // 触发 Awake 中的缓存
-        behaviour.Start();
+        // 无需特殊处理，Awake 会自动缓存
     }
 }
 

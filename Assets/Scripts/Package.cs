@@ -93,17 +93,17 @@ public class Package : MonoBehaviour
         isDelivered = true;
         
         // 计算最终奖励
-        float finalValue = value;
+        float rewardValue = value;
         if (isUrgent && remainingTime > timeLimit * 0.5f)
         {
-            finalValue *= tipMultiplier * 1.5f; // 紧急订单提前送达
+            rewardValue *= tipMultiplier * 1.5f; // 紧急订单提前送达
         }
         else if (isFragile)
         {
-            finalValue *= tipMultiplier;
+            rewardValue *= tipMultiplier;
         }
         
-        GameManager.Instance.OnPackageDelivered(this, finalValue);
+        GameManager.Instance.OnPackageDelivered(this, rewardValue);
         
         // 播放特效
         PlayDeliveryEffect();
