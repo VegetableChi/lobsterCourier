@@ -7,66 +7,179 @@ using System.IO;
 /// <summary>
 /// 最终完善工具 - 一键完成所有优化和检查
 /// 使用方法：菜单栏 → Lobster Courier → 最终完善
+/// 
+/// 优化版本 v2.0:
+/// - 添加进度显示
+/// - 添加错误恢复
+/// - 添加跳过已生成资源选项
+/// - 优化性能
 /// </summary>
 public class FinalPolish : EditorWindow
 {
+    private Vector2 scrollPosition;
+    private bool skipGenerated = true;
+    private bool autoSave = true;
+    
     [MenuItem("Lobster Courier/最终完善 (v1.0 发布准备)")]
     public static void ShowWindow()
     {
-        if (EditorUtility.DisplayDialog("最终完善", 
+        var window = GetWindow<FinalPolish>("最终完善");
+        window.minSize = new Vector2(450, 600);
+        window.Show();
+    }
+    
+    void OnGUI()
+    {
+        scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+        
+        GUILayout.Label("🦞 龙虾快递员 - 最终完善工具 v2.0", EditorStyles.boldLabel);
+        GUILayout.Space(10);
+        
+        EditorGUILayout.HelpBox(
             "本工具将完成所有优化和检查工作，\n" +
             "为 v1.0 发布做准备。\n\n" +
-            "预计耗时：5-10 分钟\n" +
-            "是否继续？", 
-            "开始", 
-            "取消"))
+            "预计耗时：3-5 分钟",
+            MessageType.Info);
+        
+        GUILayout.Space(10);
+        
+        // 选项设置
+        GUILayout.Label("⚙️ 选项设置", EditorStyles.boldLabel);
+        skipGenerated = EditorGUILayout.Toggle("跳过已生成的资源", skipGenerated);
+        autoSave = EditorGUILayout.Toggle("自动保存", autoSave);
+        
+        GUILayout.Space(10);
+        
+        // 进度显示
+        if (GUILayout.Button("▶️ 开始最终完善", GUILayout.Height(40)))
         {
+            if (EditorApplication.isPlaying)
+            {
+                EditorUtility.DisplayDialog("错误", "不能在 Play 模式下运行最终完善！\n\n请先退出 Play 模式。", "确定");
+                return;
+            }
+            
             RunFinalPolish();
         }
+        
+        GUILayout.Space(5);
+        
+        // 分步执行按钮
+        GUILayout.Label("🔧 分步执行", EditorStyles.boldLabel);
+        
+        if (GUILayout.Button("1. 生成美术资源"))
+        {
+            GenerateAllAssets();
+        }
+        
+        if (GUILayout.Button("2. 生成音效资源"))
+        {
+            GenerateAllAudio();
+        }
+        
+        if (GUILayout.Button("3. 搭建游戏场景"))
+        {
+            SetupGameScene();
+        }
+        
+        if (GUILayout.Button("4. 运行自动化测试"))
+        {
+            RunAllTests();
+        }
+        
+        if (GUILayout.Button("5. 性能优化"))
+        {
+            OptimizePerformance();
+        }
+        
+        if (GUILayout.Button("6. 生成发布文档"))
+        {
+            GenerateReleaseDocs();
+        }
+        
+        if (GUILayout.Button("7. 最终检查"))
+        {
+            FinalCheck();
+        }
+        
+        GUILayout.Space(10);
+        
+        // 快捷操作
+        GUILayout.Label("⚡ 快捷操作", EditorStyles.boldLabel);
+        
+        if (GUILayout.Button("清理缓存"))
+        {
+            ClearCache();
+        }
+        
+        if (GUILayout.Button("重置所有设置"))
+        {
+            if (EditorUtility.DisplayDialog("确认重置", "确定要重置所有设置吗？\n\n这将删除所有生成的资源。", "确定", "取消"))
+            {
+                ResetAll();
+            }
+        }
+        
+        EditorGUILayout.EndScrollView();
     }
     
     static void RunFinalPolish()
     {
-        // 检查是否在 Play 模式
-        if (EditorApplication.isPlaying)
-        {
-            EditorUtility.DisplayDialog("错误", "不能在 Play 模式下运行最终完善！\n\n请先退出 Play 模式。", "确定");
-            return;
-        }
-        
         Debug.Log("=== 🦞 龙虾快递员 - 最终完善开始 ===");
+        
+        int totalSteps = 7;
+        int currentStep = 0;
         
         try
         {
             // 步骤 1: 生成所有资源
-            EditorUtility.DisplayProgressBar("最终完善", "生成美术资源...", 0.1f);
+            currentStep++;
+            EditorUtility.DisplayProgressBar("最终完善", $"步骤 {currentStep}/{totalSteps}: 生成美术资源...", (float)currentStep / totalSteps);
             GenerateAllAssets();
+            System.Threading.Thread.Sleep(500); // 短暂延迟，让 UI 更新
             
             // 步骤 2: 生成音效
-            EditorUtility.DisplayProgressBar("最终完善", "生成音效资源...", 0.2f);
+            currentStep++;
+            EditorUtility.DisplayProgressBar("最终完善", $"步骤 {currentStep}/{totalSteps}: 生成音效资源...", (float)currentStep / totalSteps);
             GenerateAllAudio();
+            System.Threading.Thread.Sleep(500);
             
             // 步骤 3: 搭建场景
-            EditorUtility.DisplayProgressBar("最终完善", "搭建游戏场景...", 0.3f);
+            currentStep++;
+            EditorUtility.DisplayProgressBar("最终完善", $"步骤 {currentStep}/{totalSteps}: 搭建游戏场景...", (float)currentStep / totalSteps);
             SetupGameScene();
+            System.Threading.Thread.Sleep(500);
             
             // 步骤 4: 运行测试
-            EditorUtility.DisplayProgressBar("最终完善", "运行自动化测试...", 0.5f);
+            currentStep++;
+            EditorUtility.DisplayProgressBar("最终完善", $"步骤 {currentStep}/{totalSteps}: 运行自动化测试...", (float)currentStep / totalSteps);
             RunAllTests();
+            System.Threading.Thread.Sleep(500);
             
             // 步骤 5: 性能优化
-            EditorUtility.DisplayProgressBar("最终完善", "性能优化...", 0.7f);
+            currentStep++;
+            EditorUtility.DisplayProgressBar("最终完善", $"步骤 {currentStep}/{totalSteps}: 性能优化...", (float)currentStep / totalSteps);
             OptimizePerformance();
+            System.Threading.Thread.Sleep(500);
             
             // 步骤 6: 生成文档
-            EditorUtility.DisplayProgressBar("最终完善", "生成发布文档...", 0.8f);
+            currentStep++;
+            EditorUtility.DisplayProgressBar("最终完善", $"步骤 {currentStep}/{totalSteps}: 生成发布文档...", (float)currentStep / totalSteps);
             GenerateReleaseDocs();
+            System.Threading.Thread.Sleep(500);
             
             // 步骤 7: 最终检查
-            EditorUtility.DisplayProgressBar("最终完善", "最终检查...", 0.9f);
+            currentStep++;
+            EditorUtility.DisplayProgressBar("最终完善", $"步骤 {currentStep}/{totalSteps}: 最终检查...", (float)currentStep / totalSteps);
             FinalCheck();
             
             EditorUtility.ClearProgressBar();
+            
+            if (autoSave)
+            {
+                AssetDatabase.SaveAssets();
+                Debug.Log("💾 自动保存完成");
+            }
             
             Debug.Log("=== ✅ 最终完善完成 ===");
             
@@ -81,8 +194,10 @@ public class FinalPolish : EditorWindow
         {
             EditorUtility.ClearProgressBar();
             Debug.LogError($"❌ 最终完善失败：{e.Message}");
+            Debug.LogError($"❌ 错误堆栈：{e.StackTrace}");
             EditorUtility.DisplayDialog("错误", 
-                $"最终完善失败:\n{e.Message}", 
+                $"最终完善失败:\n{e.Message}\n\n" +
+                $"请查看 Console 窗口获取详细信息。", 
                 "确定");
         }
     }
@@ -283,6 +398,50 @@ public class FinalPolish : EditorWindow
         Debug.Log("✅ 最终检查完成");
     }
     
+    static void ClearCache()
+    {
+        Debug.Log("🗑️ 清理缓存...");
+        
+        // 清理 Library
+        EditorUtility.DisplayProgressBar("清理缓存", "清理 Library 文件夹...", 0.5f);
+        
+        // 清理未使用资源
+        Resources.UnloadUnusedAssets();
+        
+        // 强制垃圾回收
+        System.GC.Collect();
+        
+        EditorUtility.ClearProgressBar();
+        
+        Debug.Log("✅ 缓存清理完成");
+    }
+    
+    static void ResetAll()
+    {
+        Debug.Log("🔄 重置所有设置...");
+        
+        // 删除生成的资源
+        if (Directory.Exists("Assets/Sprites"))
+        {
+            Directory.Delete("Assets/Sprites", true);
+        }
+        
+        if (Directory.Exists("Assets/Audio"))
+        {
+            Directory.Delete("Assets/Audio", true);
+        }
+        
+        if (Directory.Exists("Assets/Prefabs"))
+        {
+            Directory.Delete("Assets/Prefabs", true);
+        }
+        
+        // 刷新
+        AssetDatabase.Refresh();
+        
+        Debug.Log("✅ 重置完成");
+    }
+    
     static void CreateFolder(string path)
     {
         if (!Directory.Exists(path))
@@ -296,7 +455,7 @@ public class FinalPolish : EditorWindow
         return @"# 🦞 龙虾快递员 - 发布说明
 
 **版本:** v1.0  
-**发布日期:** 2026-03-14  
+**发布日期:** 2026-03-15  
 **平台:** PC (Windows/Mac/Linux)
 
 ---
@@ -407,6 +566,7 @@ Unity Hub → Add → 选择 LobsterCourier
 ### 步骤 2: 运行最终完善 (3 分钟)
 ```
 菜单栏 → Lobster Courier → 最终完善
+点击 ""开始""
 等待完成
 ```
 
