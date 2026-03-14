@@ -18,7 +18,7 @@ public class ComboSystem : MonoBehaviour
     public float comboBonusMultiplier = 0.1f; // 每连击 +10% 奖励
     public float maxComboBonus = 2f; // 最高 +200%
     
-    [Header("事件")]
+    // 事件
     public event Action<int> OnComboChanged;
     public event Action<int> OnComboBroken;
     public event Action<int, float> OnComboReward;

@@ -17,7 +17,7 @@ public class Package : MonoBehaviour
     public float timeLimit = 60f;
     private float remainingTime;
     
-    [Header("状态")]
+    // 状态
     public bool IsGrabable => !isHeld && !isDelivered;
     public bool IsDelivered => isDelivered;
     

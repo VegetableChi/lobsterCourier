@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 /// <summary>
 /// 组件缓存扩展 - 避免频繁的 GetComponent 调用

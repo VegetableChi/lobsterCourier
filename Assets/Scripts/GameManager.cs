@@ -390,3 +390,21 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
     }
 }
+
+public enum GameState
+{
+    Menu,
+    Playing,
+    Paused,
+    GameOver
+}
+
+[System.Serializable]
+public class DeliveryOrder
+{
+    public Package package;
+    public Transform pickupLocation;
+    public DeliveryPoint deliveryLocation;
+    public bool isPickedUp;
+    public bool isCompleted;
+}

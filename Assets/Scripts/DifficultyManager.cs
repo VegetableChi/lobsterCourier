@@ -21,7 +21,7 @@ public class DifficultyManager : MonoBehaviour
     [Header("难度上限")]
     public int maxDifficulty = 10;
     
-    [Header("事件")]
+    // 事件
     public delegate void DifficultyChangedEvent(int newDifficulty);
     public static event DifficultyChangedEvent OnDifficultyIncreased;
     
