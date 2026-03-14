@@ -142,7 +142,7 @@ public class FinalPolish : EditorWindow
         string scenePath = "Assets/Scenes/GameScene.unity";
         
         // 创建新场景
-        Scene scene = EditorSceneManager.NewScene(UnityEngine.SceneManagement.NewSceneSetup.EmptyScene, UnityEngine.SceneManagement.NewSceneMode.Single);
+        Scene scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
         
         // 保存场景
         EditorSceneManager.SaveScene(scene, scenePath);
