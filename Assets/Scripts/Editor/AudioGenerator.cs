@@ -58,7 +58,7 @@ public class AudioGenerator : EditorWindow
         EditorGUILayout.EndScrollView();
     }
     
-    void GenerateAllAudio()
+    public void GenerateAllAudio()
     {
         try
         {

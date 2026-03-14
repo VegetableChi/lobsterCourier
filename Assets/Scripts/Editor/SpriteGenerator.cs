@@ -68,7 +68,7 @@ public class SpriteGenerator : EditorWindow
         EditorGUILayout.EndScrollView();
     }
     
-    void GenerateAllAssets()
+    public void GenerateAllAssets()
     {
         try
         {
@@ -284,37 +284,53 @@ public class SpriteGenerator : EditorWindow
         
         int centerY = 32 + (frame - 1) * 2;
         
-        // 根据类型绘制不同形状
+        // 根据类型绘制不同形状 - 使用简单几何图形
         switch (npcType)
         {
             case 0: // 星星 - 五角星
                 DrawStar(texture, 32, centerY, 24, mainColor);
                 break;
-            case 1: // 八爪 - 圆形 + 触手
-                DrawOctopus(texture, 32, centerY, mainColor);
+            case 1: // 八爪 - 圆形
+                DrawCircle(texture, 32, centerY, 24, mainColor);
                 break;
             case 2: // 珊瑚鱼 - 椭圆
-                DrawFish(texture, 32, centerY, mainColor);
+                DrawEllipse(texture, 32, centerY, 24, 16, mainColor);
                 break;
-            case 3: // 钳子蟹 - 扁圆 + 大钳
-                DrawCrab(texture, 32, centerY, mainColor);
+            case 3: // 钳子蟹 - 扁圆
+                DrawEllipse(texture, 32, centerY, 28, 18, mainColor);
                 break;
             case 4: // 海马 - S 形
-                DrawSeahorse(texture, 32, centerY, mainColor);
+                DrawCircle(texture, 32, centerY, 20, mainColor);
                 break;
             case 5: // 水母 - 半透明伞状
-                DrawJellyfish(texture, 32, centerY, mainColor);
+                DrawCircle(texture, 32, centerY, 24, new Color(mainColor.r, mainColor.g, mainColor.b, 0.5f));
                 break;
             case 6: // 海龟 - 椭圆 + 壳
-                DrawTurtle(texture, 32, centerY, mainColor);
+                DrawEllipse(texture, 32, centerY, 26, 20, mainColor);
                 break;
             case 7: // 鲨鱼 - 流线型
-                DrawShark(texture, 32, centerY, mainColor);
+                DrawEllipse(texture, 32, centerY, 32, 14, mainColor);
                 break;
         }
         
         texture.Apply();
         return texture;
+    }
+    
+    void DrawEllipse(Texture2D texture, int centerX, int centerY, int radiusX, int radiusY, Color color)
+    {
+        for (int x = 0; x < texture.width; x++)
+        {
+            for (int y = 0; y < texture.height; y++)
+            {
+                float dx = (x - centerX) / (float)radiusX;
+                float dy = (y - centerY) / (float)radiusY;
+                if (dx * dx + dy * dy <= 1f)
+                {
+                    texture.SetPixel(x, y, color);
+                }
+            }
+        }
     }
     
     #endregion

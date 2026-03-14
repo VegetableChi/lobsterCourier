@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// 场景自动搭建工具 - 一键创建游戏场景
@@ -78,7 +80,7 @@ public class SceneSetup : EditorWindow
     
     #region 创建主场景
     
-    void CreateGameScene()
+    public void CreateGameScene()
     {
         try
         {
@@ -156,14 +158,14 @@ public class SceneSetup : EditorWindow
         CreateCamera();
         
         // 创建主菜单 UI
-        CreateMainMenuUI();
+        CreateMainMenuUI(canvas);
         
         // 创建管理器
         CreateAudioManager();
         
         // 保存场景
         System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName("Assets/" + scenePath));
-        UnityEngine.SceneManagement.SceneManager.SaveScene(scene, scenePath);
+        EditorSceneManager.SaveScene(scene, scenePath);
         
         Debug.Log("✅ 主菜单场景创建完成！");
         EditorUtility.DisplayDialog("场景创建完成", "主菜单场景已创建完成！", "好的");

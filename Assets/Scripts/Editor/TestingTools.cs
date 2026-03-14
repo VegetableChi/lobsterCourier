@@ -106,7 +106,7 @@ public class TestingTools : EditorWindow
         }
     }
     
-    void RunAllTests()
+    public void RunAllTests()
     {
         Debug.Log("=== 开始运行全部测试 ===");
         
